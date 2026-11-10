@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ім'я Прізвище — продуктовий дизайнер</title>
+  <meta name="description" content="Продуктовий дизайнер. Проєктую цифрові продукти від дослідження до запуску.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Перейти до змісту</a>
+
+  <header class="header">
+    <div class="container header__row">
+      <a class="logo" href="#top" aria-label="Ім'я Прізвище, на початок">Ім'я Прізвище</a>
+      <nav class="nav" aria-label="Основна навігація">
+        <a href="#work">Роботи</a>
+        <a href="#about">Про мене</a>
+        <a href="#experience">Досвід</a>
+        <a class="nav__cta" href="#contact">Написати</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" id="top">
+      <p class="eyebrow">Продуктовий дизайнер · Київ / віддалено</p>
+      <h1>Проєктую продукти, якими <em>приємно</em> користуватись щодня.</h1>
+      <p class="lead">Допомагаю командам перейти від розмитої ідеї до продукту, який розуміють користувачі: дослідження, UX, інтерфейси та дизайн-системи.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#work">Дивитись роботи</a>
+        <a class="btn" href="#contact">Обговорити проєкт</a>
+      </div>
+      <dl class="stats">
+        <div><dt>Років досвіду</dt><dd>6+</dd></div>
+        <div><dt>Запущених продуктів</dt><dd>12</dd></div>
+        <div><dt>Команд, з якими працював</dt><dd>8</dd></div>
+      </dl>
+    </section>
+
+    <section class="section container" id="work" aria-labelledby="work-title">
+      <div class="section__head">
+        <h2 id="work-title">Вибрані роботи</h2>
+        <p>Три кейси, які найкраще показують мій підхід.</p>
+      </div>
+      <div class="cases">
+        <a class="case" href="#">
+          <div class="case__thumb case__thumb--a" aria-hidden="true"></div>
+          <div class="case__body">
+            <p class="case__meta">Fintech · Мобільний застосунок</p>
+            <h3>Перероблений онбординг банківського застосунку</h3>
+            <p>Скоротив шлях до першої операції з 9 до 4 кроків, конверсія зросла на 28%.</p>
+          </div>
+        </a>
+        <a class="case" href="#">
+          <div class="case__thumb case__thumb--b" aria-hidden="true"></div>
+          <div class="case__body">
+            <p class="case__meta">SaaS · Веб-платформа</p>
+            <h3>Дизайн-система для B2B-платформи</h3>
+            <p>Зібрав 80+ компонентів, вдвічі прискорив розробку нових екранів.</p>
+          </div>
+        </a>
+        <a class="case" href="#">
+          <div class="case__thumb case__thumb--c" aria-hidden="true"></div>
+          <div class="case__body">
+            <p class="case__meta">Marketplace · Дослідження</p>
+            <h3>Пошук і фільтри для маркетплейсу</h3>
+            <p>20 інтерв'ю та A/B-тести: на 17% менше відмов на сторінці каталогу.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section container" id="about" aria-labelledby="about-title">
+      <div class="split">
+        <div>
+          <h2 id="about-title">Про мене</h2>
+          <p>Я продуктовий дизайнер з досвідом у стартапах і великих продуктових компаніях. Люблю працювати на стику бізнес-цілей, потреб користувачів і технічних обмежень.</p>
+          <p>Вірю, що хороший дизайн — це спільний результат: тому багато спілкуюсь із розробниками й менеджерами та перевіряю рішення на реальних людях.</p>
+        </div>
+        <div>
+          <h3 class="label">Чим займаюсь</h3>
+          <ul class="tags">
+            <li>Дослідження користувачів</li>
+            <li>UX-стратегія</li>
+            <li>Прототипування</li>
+            <li>UI-дизайн</li>
+            <li>Дизайн-системи</li>
+            <li>A/B-тестування</li>
+          </ul>
+          <h3 class="label">Інструменти</h3>
+          <ul class="tags">
+            <li>Figma</li>
+            <li>FigJam</li>
+            <li>Notion</li>
+            <li>Amplitude</li>
+            <li>Maze</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="experience" aria-labelledby="exp-title">
+      <h2 id="exp-title">Досвід</h2>
+      <ol class="timeline">
+        <li>
+          <span class="timeline__date">2023 — тепер</span>
+          <div><h3>Senior Product Designer · Компанія A</h3><p>Веду дизайн напряму платежів, працюю в команді з 8 інженерів.</p></div>
+        </li>
+        <li>
+          <span class="timeline__date">2020 — 2023</span>
+          <div><h3>Product Designer · Компанія B</h3><p>Запустив мобільний застосунок і створив першу дизайн-систему.</p></div>
+        </li>
+        <li>
+          <span class="timeline__date">2018 — 2020</span>
+          <div><h3>UI/UX Designer · Студія C</h3><p>Проєкти для клієнтів з e-commerce та освіти.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section container contact" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Працюймо разом</h2>
+      <p class="lead">Відкритий до нових проєктів і цікавих розмов. Зазвичай відповідаю протягом доби.</p>
+      <a class="btn btn--primary" href="mailto:hello@example.com">hello@example.com</a>
+      <ul class="links">
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Behance</a></li>
+        <li><a href="#">Telegram</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__row">
+      <p>© <span id="year">2026</span> Ім'я Прізвище</p>
+      <a href="#top">Нагору ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
