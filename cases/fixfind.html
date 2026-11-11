@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixFind — case study · Yana Prydeus</title>
+  <meta name="description" content="FixFind: a marketplace for appliance repair, designed and shipped end-to-end with AI in 10 days.">
+  <meta name="theme-color" content="#F4FDCE">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@500;700&family=Parkinsans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>body::before { background-image: url("../assets/meadow-wide.webp"); } @media (max-aspect-ratio: 4/5) { body::before { background-image: url("../assets/meadow-tall.webp"); } }</style>
+  <script>try { if (localStorage.getItem('lang') === 'ua') document.documentElement.setAttribute('data-lang', 'ua'); } catch (e) {}</script>
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <button class="lang" type="button" aria-label="Switch language / Змінити мову">
+    <span data-lang-opt="en" aria-current="true">EN</span><span aria-hidden="true">/</span><span data-lang-opt="ua">UA</span>
+  </button>
+  <nav aria-label="Sections">
+    <ul class="tabs">
+      <li><a class="tab--work" href="../index.html#work" aria-current="true" data-i18n="nav.work">Work</a></li>
+      <li><a class="tab--about" href="../index.html#about" data-i18n="nav.about">About</a></li>
+      <li><a class="tab--hobbies" href="../index.html#hobbies" data-i18n="nav.hobbies">Hobbies</a></li>
+      <li><a class="tab--contact" href="../index.html#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="case-wrap">
+    <article class="sheet paper" id="main">
+      <!-- Sticky meta column -->
+      <aside class="aside stack" aria-label="Project details">
+        <a class="hand link" style="display:block;font-size:26px;color:var(--ink-2);text-decoration:none" href="../index.html#work" data-i18n="cp.back">← contents</a>
+        <span class="chip-no">CASE 01 / 05</span>
+        <div>
+          <h1 class="case-title">FixFind</h1>
+          <p style="font-size:21px;font-weight:500;margin-top:6px" data-i18n="cp.sub">Marketplace for appliance repair</p>
+        </div>
+        <dl class="meta">
+          <dt data-i18n="cp.role">Role</dt><dd data-i18n="cp.roleV">Solo product designer — research to release</dd>
+          <dt data-i18n="cp.time">Timeline</dt><dd data-i18n="cp.timeV">10 days, idea → production</dd>
+          <dt data-i18n="cp.model">Model</dt><dd data-i18n="cp.modelV">B2C + B2B · AI · Local services</dd>
+          <dt data-i18n="cp.tools">Tools</dt>
+          <dd><ul class="chips" style="margin-top:6px"><li>Figma</li><li>FigJam</li><li>ChatGPT</li><li>Midjourney</li><li>Claude</li></ul></dd>
+        </dl>
+        <p class="callout" data-i18n="cp.callout">Built end-to-end with AI: from interviews to a working product in 10 days.</p>
+        <div>
+          <p class="label" data-i18n="cp.live">See it live</p>
+          <!-- TODO: real links -->
+          <p style="margin-top:6px"><a class="link" href="#" data-i18n="cp.liveL">live product →</a></p>
+          <p><a class="link" href="#" data-i18n="cp.protoL">clickable prototype →</a></p>
+        </div>
+        <nav class="toc-wrap" aria-label="On this page">
+          <p class="label" data-i18n="cp.toc">On this page</p>
+          <ul class="toc">
+            <li><a href="#what" aria-current="true" data-i18n="cp.s1">What it is</a></li>
+            <li><a href="#problem" data-i18n="cp.s2">The problem</a></li>
+            <li><a href="#research" data-i18n="cp.s3">Research</a></li>
+            <li><a href="#flow" data-i18n="cp.s4">The flow</a></li>
+            <li><a href="#screens" data-i18n="cp.s5">Key screens</a></li>
+            <li><a href="#results" data-i18n="cp.s6">Results</a></li>
+            <li><a href="#next" data-i18n="cp.s7">What I'd do next</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Story -->
+      <div class="story">
+        <section id="what" class="stack">
+          <h2 class="h3" data-i18n="cp.whatT">What FixFind is</h2>
+          <p data-i18n="cp.whatP">FixFind helps people find a repair shop that specialises in exactly their problem. Users describe the issue in their own words, answer three questions, and compare personalised quotes from verified shops — when they'll take the device, the price, and how long the repair takes.</p>
+          <figure class="polaroid" style="margin-top:36px">
+            <span class="tape" aria-hidden="true"></span>
+            <!-- TODO: hero screenshot -->
+            <div class="preview__shot" style="background:var(--clip-blue);aspect-ratio:16/9" data-i18n="cp.shot">[ hero screen ]</div>
+            <figcaption data-i18n="cp.shotCap">request flow · mobile</figcaption>
+          </figure>
+          <p class="note" style="text-align:right" data-i18n="cp.noForms">no forms — people describe it like they'd tell a friend</p>
+        </section>
+
+        <section id="problem" class="stack">
+          <h2 class="h3" data-i18n="cp.s2">The problem</h2>
+          <div class="ph-lines" aria-hidden="true"><span style="width:100%"></span><span style="width:92%"></span><span style="width:97%"></span><span style="width:60%"></span></div>
+          <p class="quote" data-i18n="cp.quote">“[ a real user quote that frames the problem ]”</p>
+        </section>
+
+        <section id="research" class="stack">
+          <h2 class="h3" data-i18n="cp.s3">Research</h2>
+          <div class="ph-lines" aria-hidden="true"><span style="width:100%"></span><span style="width:85%"></span></div>
+          <div class="insights">
+            <div class="sticky"><b><span data-i18n="cp.insight">insight</span> #1</b><span data-i18n="cp.insightP">[ what you learned ]</span></div>
+            <div class="sticky"><b><span data-i18n="cp.insight">insight</span> #2</b><span data-i18n="cp.insightP">[ what you learned ]</span></div>
+            <div class="sticky"><b><span data-i18n="cp.insight">insight</span> #3</b><span data-i18n="cp.insightP">[ what you learned ]</span></div>
+          </div>
+        </section>
+
+        <section id="flow" class="stack">
+          <h2 class="h3" data-i18n="cp.s4">The flow</h2>
+          <div class="flow">
+            <div class="step"><b>01</b><strong data-i18n="cp.st1">Describe the problem</strong><span data-i18n="cp.st1s">in your own words</span></div>
+            <span class="flow__arrow" aria-hidden="true">→</span>
+            <div class="step"><b>02</b><strong data-i18n="cp.st2">Answer 3 questions</strong><span data-i18n="cp.st2s">to narrow it down</span></div>
+            <span class="flow__arrow" aria-hidden="true">→</span>
+            <div class="step"><b>03</b><strong data-i18n="cp.st3">Compare quotes</strong><span data-i18n="cp.st3s">price · time · drop-off date</span></div>
+          </div>
+          <p class="note" style="text-align:right" data-i18n="cp.oneCard">all three in one card — no back-and-forth chats</p>
+        </section>
+
+        <section id="screens" class="stack">
+          <h2 class="h3" data-i18n="cp.s5">Key screens</h2>
+          <div class="screens">
+            <figure class="polaroid"><div class="photo" style="background:var(--butter);aspect-ratio:3/4" data-i18n="cp.scr">[ screen ]</div><figcaption data-i18n="cp.scr1">quote comparison</figcaption></figure>
+            <figure class="polaroid"><div class="photo" style="background:var(--melon);aspect-ratio:3/4" data-i18n="cp.scr">[ screen ]</div><figcaption data-i18n="cp.scr2">shop profile</figcaption></figure>
+          </div>
+        </section>
+
+        <section id="results" class="stack">
+          <h2 class="h3" data-i18n="cp.s6">Results</h2>
+          <div class="results">
+            <div class="result"><b>[ +x% ]</b><span><span data-i18n="cp.metric">metric</span> #1</span></div>
+            <div class="result"><b>[ +x% ]</b><span><span data-i18n="cp.metric">metric</span> #2</span></div>
+            <div class="result"><b>[ +x% ]</b><span><span data-i18n="cp.metric">metric</span> #3</span></div>
+          </div>
+          <p class="note" style="color:var(--blush)" data-i18n="cp.todo">↑ replace with real numbers</p>
+        </section>
+
+        <section id="next" class="stack">
+          <h2 class="h3" data-i18n="cp.s7">What I'd do next</h2>
+          <div class="ph-lines" aria-hidden="true"><span style="width:100%"></span><span style="width:90%"></span><span style="width:50%"></span></div>
+        </section>
+
+        <div class="next">
+          <span class="hand" style="font-size:28px;color:var(--ink-2)" data-i18n="cp.nextCase">next case</span>
+          <a class="btn btn--solid" href="../index.html#work">02 · FinPay →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <script src="../js/i18n.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
