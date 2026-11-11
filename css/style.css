@@ -9,7 +9,7 @@
   --pistachio: #699407;
   --grass: #384704;
   --paper: #FFFDF7;
-  --grid: rgba(249, 211, 217, .6);
+  --grid: rgba(249, 211, 217, .38);
   --fold: #E9DCCB;
   --clip-blue: #BFD8F0;
   --butter: #F7EBAE;
@@ -223,7 +223,12 @@ a.sticky:hover { transform: rotate(0deg) translateY(-3px) !important; }
 .preview__metric span { font: 400 26px/1 var(--f-hand); color: var(--ink-2); }
 .preview [data-fade] { transition: opacity .2s; }
 .preview.is-swapping [data-fade] { opacity: 0; }
-.work__hint { margin-top: 28px; font-size: 24px; color: var(--pistachio); }
+.row__go {
+  font: 600 20px/1 var(--f-sans); color: var(--grass);
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .2s, transform .2s var(--ease-out);
+}
+.row:hover .row__go, .row[aria-pressed="true"] .row__go, .row:focus-visible .row__go { opacity: 1; transform: none; }
 
 /* ---------- About ---------- */
 .process { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font: 700 30px/1.25 var(--f-hand); color: var(--grass); margin-top: 8px; }
@@ -251,6 +256,15 @@ a.sticky:hover { transform: rotate(0deg) translateY(-3px) !important; }
   font: 400 26px/1.2 var(--f-hand); color: var(--ink-2);
 }
 .flip:hover .flip__inner, .flip:focus-within .flip__inner, .flip.is-flipped .flip__inner { transform: rotateY(180deg); }
+.flip__badge {
+  position: absolute; right: 12px; bottom: 12px; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: #fff; color: var(--ink-2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .16);
+  transition: transform .4s var(--ease-out), color .2s;
+}
+.flip__badge svg { width: 18px; height: 18px; }
+.flip:hover .flip__badge, .flip button:focus-visible .flip__badge { transform: rotate(180deg); color: var(--grass); }
+.flip__back { position: absolute; }
 .flip button { all: unset; display: block; width: 100%; cursor: pointer; }
 .flip .polaroid, .flip .photo { width: 100%; }
 .flip button:focus-visible { outline: 3px solid var(--grass); outline-offset: 6px; }
@@ -259,8 +273,8 @@ a.sticky:hover { transform: rotate(0deg) translateY(-3px) !important; }
 .hobbies__grid .flip:nth-child(1) { position: absolute; left: 0; top: 8px; transform: rotate(3deg); }
 .hobbies__grid .flip:nth-child(2) { position: absolute; left: 260px; top: 40px; transform: rotate(-4deg); }
 .hobbies__grid .flip:nth-child(3) { position: absolute; left: 96px; top: 340px; transform: rotate(-2deg); }
-.hobbies__ask { position: absolute; right: 48px; bottom: 120px; transform: rotate(5deg); }
-.hobbies__note { position: absolute; right: 40px; bottom: 40px; font-size: 26px; color: var(--pistachio); text-align: right; }
+.hobbies__ask { position: absolute; right: 16px; bottom: 64px; max-width: 210px; transform: rotate(5deg); }
+.hobbies__ask b { font-size: 25px; white-space: nowrap; }
 
 /* ---------- Contact ---------- */
 .paths { display: grid; gap: 16px; margin-top: 8px; }
@@ -388,7 +402,7 @@ html.play-loader .loader {
   .page { min-height: 0; padding: 40px 24px 48px; }
   .page--left { border-radius: 6px 6px 0 0; }
   .page--right { border-radius: 0 0 6px 6px; border-top: 1px dashed var(--line); padding-left: 24px; }
-  .hero__note, .hero__sticky, .about__sticky, .hobbies__ask, .hobbies__note { position: static; transform: none; margin-top: 24px; }
+  .hero__note, .hero__sticky, .about__sticky, .hobbies__ask { position: static; transform: none; margin-top: 24px; }
   .hero__note { display: block; }
   .hero__right { display: flex; flex-direction: column; gap: 28px; }
   .hero__photo { margin: 24px auto 0; }
@@ -417,7 +431,7 @@ html.play-loader .loader {
   .tabs a { padding: 0 12px; font-size: 14px; }
   .actions .btn { flex: 1 1 100%; }
   .row { padding: 14px 8px; gap: 10px; flex-wrap: wrap; }
-  .row__leader { display: none; }
+  .row__leader, .row__go { display: none; }
   .row__title { font-size: 21px; }
   .row__domain { width: 100%; padding-left: 34px; font-size: 22px; }
   .job { grid-template-columns: 1fr; gap: 4px; }
