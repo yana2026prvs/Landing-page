@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Watercolour-pencil sticker sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: transparent; font-family: sans-serif; }
+  #sheet { display: flex; flex-wrap: wrap; gap: 0; width: 1440px; }
+  .item { width: 240px; height: 240px; }
+  .item svg { width: 240px; height: 240px; display: block; overflow: visible; }
+</style>
+</head>
+<body>
+<!-- Shared filters -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- watercolour pencil: wobbly edge + pencil grain + soft pigment bleed -->
+    <filter id="wcp" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <!-- wobbly, hand-drawn edge -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="6" xChannelSelector="R" yChannelSelector="G" result="wobbly"/>
+      <!-- uneven pigment: soft blotches of lighter / denser colour -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="3" seed="21" result="blot"/>
+      <feColorMatrix in="blot" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.5 0 0 0 0.05" result="blotA"/>
+      <feComposite in="wobbly" in2="blotA" operator="in" result="pigment"/>
+      <!-- paper tooth: pencil grain -->
+      <feTurbulence type="fractalNoise" baseFrequency="1.25" numOctaves="2" seed="11" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.2 0 0 0 -0.85" result="grainA"/>
+      <feComposite in="pigment" in2="grainA" operator="in" result="grained"/>
+      <!-- pigment pooling at the edge (watercolour dries darker at the rim) -->
+      <feMorphology in="wobbly" operator="erode" radius="2.6" result="er"/>
+      <feComposite in="wobbly" in2="er" operator="out" result="edgeBand"/>
+      <feGaussianBlur in="edgeBand" stdDeviation=".8" result="edgeSoft"/>
+      <feColorMatrix in="edgeSoft" type="matrix" values=".72 0 0 0 0  0 .72 0 0 0  0 0 .72 0 0  0 0 0 .55 0" result="edge"/>
+      <!-- soft bleed under everything -->
+      <feGaussianBlur in="wobbly" stdDeviation="2.4" result="bleed"/>
+      <feColorMatrix in="bleed" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .38 0" result="bleedSoft"/>
+      <feMerge><feMergeNode in="bleedSoft"/><feMergeNode in="grained"/><feMergeNode in="edge"/></feMerge>
+    </filter>
+    <!-- finer variant for outlines/strokes -->
+    <filter id="wcpLine" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="5" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="4" xChannelSelector="R" yChannelSelector="G" result="wobbly"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="2" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -0.75" result="grainA"/>
+      <feComposite in="wobbly" in2="grainA" operator="in"/>
+    </filter>
+    <!-- die-cut white sticker border + soft shadow -->
+    <filter id="sticker" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="9" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.2" result="db"/>
+      <feComponentTransfer in="db" result="dbs"><feFuncA type="linear" slope="3" intercept="-0.4"/></feComponentTransfer>
+      <feFlood flood-color="#FFFFFF"/>
+      <feComposite in2="dbs" operator="in" result="white"/>
+      <feGaussianBlur in="dbs" stdDeviation="4" result="sh"/>
+      <feOffset in="sh" dy="3" result="sho"/>
+      <feColorMatrix in="sho" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- pencil hatching overlays (colour-agnostic) -->
+    <pattern id="hL" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#fff" stroke-opacity=".38" stroke-width="1.8"/>
+    </pattern>
+    <pattern id="hD" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-52)">
+      <line x1="0" y1="0" x2="0" y2="9" stroke="#000" stroke-opacity=".08" stroke-width="1.4"/>
+    </pattern>
+  </defs>
+</svg>
+
+<div id="sheet"></div>
+
+<script>
+// ---------- helpers ----------
+function mix(hex, to, k) {
+  const a = [1,3,5].map(i => parseInt(hex.slice(i, i + 2), 16)), b = [1,3,5].map(i => parseInt(to.slice(i, i + 2), 16));
+  return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * k).toString(16).padStart(2, '0')).join('');
+}
+const dark = (c, k = .38) => mix(c, '#2A1F24', k);
+const at = o => Object.entries(o).map(([k, v]) => `${k}="${v}"`).join(' ');
+// A coloured shape drawn in watercolour pencil: pigment + hatching + pencil outline
+function wc(tag, attrs, color, opt = {}) {
+  const a = at(attrs), line = opt.line || dark(color);
+  return `<g filter="url(#wcp)">
+    <${tag} ${a} fill="${color}" fill-opacity="${opt.alpha || .92}"/>
+    ${opt.hatch === false ? '' : `<${tag} ${a} fill="url(#hL)"/><${tag} ${a} fill="url(#hD)"/>`}
+  </g>
+  ${opt.outline === false ? '' : `<g filter="url(#wcpLine)"><${tag} ${a} fill="none" stroke="${line}" stroke-width="${opt.lw || 2.4}" stroke-linejoin="round" stroke-linecap="round" stroke-opacity=".85"/></g>`}`;
+}
+// A pencil stroke (stems, rays, doodles)
+const stroke = (d, color, w = 4, op = .9) => `<g filter="url(#wcpLine)"><path d="${d}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="${op}"/></g>`;
+const rot = (deg, cx, cy) => `rotate(${deg} ${cx} ${cy})`;
+
+// ---------- illustrations (viewBox 0..200) ----------
+const art = {
+  daisy() {
+    let s = wc('ellipse', { cx: 62, cy: 168, rx: 26, ry: 10, transform: rot(-30, 62, 168) }, '#7FB466') +
+            wc('ellipse', { cx: 140, cy: 170, rx: 24, ry: 9, transform: rot(28, 140, 170) }, '#8FC27A');
+    for (let i = 0; i < 14; i++) { const a = i / 14 * Math.PI * 2 + .11, cx = 100 + Math.cos(a) * 46, cy = 96 + Math.sin(a) * 46;
+      s += wc('ellipse', { cx, cy, rx: 32, ry: 13, transform: rot(a * 180 / Math.PI, cx, cy) }, i % 2 ? '#DCE7F8' : '#FFFFFF', { line: '#8FA9D6', lw: 1.8 }); }
+    s += wc('circle', { cx: 100, cy: 96, r: 25 }, '#F7C948');
+    for (let i = 0; i < 9; i++) { const a = i * 2.4, r = 6 + i * 1.6; s += wc('circle', { cx: 100 + Math.cos(a) * r, cy: 96 + Math.sin(a) * r, r: 3 }, '#E8962E', { outline: false, hatch: false }); }
+    return s;
+  },
+  poppy() {
+    let s = stroke('M100 200 C 96 170 104 150 100 130', '#5E9A57', 5);
+    const petals = [[70, 82, -20], [130, 82, 20], [72, 122, 20], [128, 122, -20]];
+    petals.forEach(([cx, cy, r], i) => { s += wc('ellipse', { cx, cy, rx: 44, ry: 38, transform: rot(r, cx, cy) }, i % 2 ? '#EF5A4C' : '#E8443A'); });
+    s += wc('circle', { cx: 100, cy: 102, r: 17 }, '#3B2232');
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; s += stroke(`M${100 + Math.cos(a) * 17} ${102 + Math.sin(a) * 17} L${100 + Math.cos(a) * 28} ${102 + Math.sin(a) * 28}`, '#3B2232', 2.4); }
+    return s;
+  },
+  cornflower() {
+    let s = stroke('M100 200 C 104 175 96 160 100 140', '#5E9A57', 5) + wc('ellipse', { cx: 122, cy: 172, rx: 20, ry: 7, transform: rot(-35, 122, 172) }, '#7FB466');
+    for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, c = (r, da) => `${100 + Math.cos(a + da) * r} ${92 + Math.sin(a + da) * r}`;
+      s += wc('path', { d: `M${c(16, -.22)} L${c(66, -.07)} L${c(58, 0)} L${c(66, .07)} L${c(16, .22)} Z` }, i % 2 ? '#6F96EA' : '#4F7DDB'); }
+    s += wc('circle', { cx: 100, cy: 92, r: 17 }, '#2B3F8F');
+    return s;
+  },
+  sunCloud() {
+    let s = '';
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; s += stroke(`M${128 + Math.cos(a) * 52} ${74 + Math.sin(a) * 52} L${128 + Math.cos(a) * 70} ${74 + Math.sin(a) * 70}`, '#F5B431', 6); }
+    s += wc('circle', { cx: 128, cy: 74, r: 42 }, '#FFD23F');
+    s += wc('path', { d: 'M34 160 C 12 160 12 126 40 124 C 40 96 80 90 92 112 C 104 86 150 92 148 124 C 176 122 180 160 152 160 Z' }, '#E3EEFB', { line: '#8FA9D6' });
+    return s;
+  },
+  pencil() {
+    return `<g transform="${rot(-35, 100, 100)}">` +
+      wc('polygon', { points: '28,84 28,116 -2,100' }, '#F2D2A9') +
+      wc('polygon', { points: '9,95 9,105 -2,100' }, '#4A4A4A', { outline: false }) +
+      wc('rect', { x: 28, y: 84, width: 120, height: 32 }, '#F7D154') +
+      stroke('M32 95 L146 95', '#E0A92B', 2.4, .7) + stroke('M32 106 L146 106', '#E0A92B', 2.4, .7) +
+      wc('rect', { x: 148, y: 82, width: 20, height: 36 }, '#C9CDD3') +
+      wc('rect', { x: 168, y: 84, width: 22, height: 32, rx: 7 }, '#F7A1B5') + '</g>';
+  },
+  cursor() {
+    return wc('path', { d: 'M62 26 L62 162 L96 130 L120 180 L142 170 L118 120 L164 118 Z' }, '#9ACD52', { line: '#384704', lw: 3 }) +
+      stroke('M150 40 L168 26 M156 58 L180 54 M136 30 L140 10', '#F98093', 4);
+  },
+  heart() {
+    return wc('path', { d: 'M100 168 C 40 128 22 98 22 72 C 22 46 44 30 66 30 C 82 30 94 40 100 54 C 106 40 118 30 134 30 C 156 30 178 46 178 72 C 178 98 160 128 100 168 Z' }, '#F98093') +
+      stroke('M56 66 C 58 54 66 48 76 48', '#FFFFFF', 5, .7);
+  },
+  butterfly() {
+    let s = wc('ellipse', { cx: 62, cy: 72, rx: 44, ry: 36, transform: rot(-25, 62, 72) }, '#C9B6F0') +
+            wc('ellipse', { cx: 138, cy: 72, rx: 44, ry: 36, transform: rot(25, 138, 72) }, '#C9B6F0') +
+            wc('ellipse', { cx: 70, cy: 132, rx: 30, ry: 26, transform: rot(20, 70, 132) }, '#F9B4C6') +
+            wc('ellipse', { cx: 130, cy: 132, rx: 30, ry: 26, transform: rot(-20, 130, 132) }, '#F9B4C6');
+    [[58, 66, 9], [142, 66, 9], [72, 132, 6], [128, 132, 6]].forEach(([cx, cy, r]) => { s += wc('circle', { cx, cy, r }, '#FFFFFF', { line: '#9E86D6', lw: 1.6 }); });
+    s += wc('ellipse', { cx: 100, cy: 104, rx: 9, ry: 46 }, '#4A3B5C') + stroke('M96 62 C 90 40 80 32 70 34 M104 62 C 110 40 120 32 130 34', '#4A3B5C', 3);
+    return s;
+  },
+  ladybug() {
+    let s = stroke('M60 120 L36 132 M60 100 L34 98 M62 80 L42 66 M140 120 L164 132 M140 100 L166 98 M138 80 L158 66', '#2E2A33', 4);
+    s += wc('circle', { cx: 100, cy: 58, r: 26 }, '#2E2A33') + wc('circle', { cx: 100, cy: 108, r: 58 }, '#E8443A');
+    s += stroke('M100 52 L100 166', '#2E2A33', 3.5);
+    [[76, 84, 10], [124, 84, 10], [70, 124, 12], [130, 124, 12], [100, 146, 8]].forEach(([cx, cy, r]) => { s += wc('circle', { cx, cy, r }, '#2E2A33', { hatch: false }); });
+    s += wc('circle', { cx: 90, cy: 50, r: 5 }, '#FFFFFF', { outline: false, hatch: false }) + wc('circle', { cx: 110, cy: 50, r: 5 }, '#FFFFFF', { outline: false, hatch: false });
+    return s;
+  },
+  star() {
+    const p = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 36 : 80; p.push(`${100 + Math.cos(a) * r},${104 + Math.sin(a) * r}`); }
+    return wc('polygon', { points: p.join(' ') }, '#FFD23F') + stroke('M78 84 C 82 74 90 70 98 70', '#FFFFFF', 4, .6);
+  },
+  sprig() {
+    let s = stroke('M40 176 C 70 140 110 100 168 30', '#5E9A57', 5);
+    [[70, 140, -60, 1], [92, 112, -55, -1], [118, 86, -50, 1], [140, 62, -48, -1], [60, 150, -70, -1]].forEach(([x, y, r, side], i) => {
+      const cx = x + side * 18, cy = y + side * -6;
+      s += wc('ellipse', { cx, cy, rx: 24, ry: 10, transform: rot(r + side * 40, cx, cy) }, i % 2 ? '#9BCB7F' : '#7FB466'); });
+    return s;
+  },
+  hello() {
+    return `<g filter="url(#wcp)"><text x="100" y="120" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="86" fill="#699407">hello!</text></g>` +
+      stroke('M30 142 C 70 132 130 132 172 140', '#F98093', 6, .85);
+  },
+  // ---- doodles: drawn straight onto the paper (no sticker border) ----
+  sparkle() { return wc('path', { d: 'M100 20 C 106 80 120 94 180 100 C 120 106 106 120 100 180 C 94 120 80 106 20 100 C 80 94 94 80 100 20 Z' }, '#9ACD52', { line: '#699407' }); },
+  sparklePink() { return wc('path', { d: 'M100 20 C 106 80 120 94 180 100 C 120 106 106 120 100 180 C 94 120 80 106 20 100 C 80 94 94 80 100 20 Z' }, '#F9A3B3', { line: '#E0607A' }); },
+  circle() { return stroke('M160 44 C 120 22 36 30 18 84 C 2 136 80 172 140 158 C 190 146 196 96 170 68 C 150 46 112 40 84 46', '#F98093', 5); },
+  underline() { return stroke('M10 110 C 40 96 60 122 90 106 C 120 92 140 120 190 100', '#9ACD52', 7, .85); },
+  arrow() { return stroke('M24 150 C 40 90 100 70 150 82 C 140 92 136 100 134 108 M150 82 C 140 76 132 70 126 60', '#5E5B52', 4.5); },
+  swirl() { return stroke('M100 100 C 100 90 114 88 116 100 C 118 116 96 122 86 108 C 74 92 92 70 112 72 C 140 76 144 112 124 130 C 100 150 62 136 58 104 C 54 70 86 46 120 50', '#B79BEA', 4.5); },
+};
+
+const STICKERS = ['daisy', 'poppy', 'cornflower', 'sunCloud', 'pencil', 'cursor', 'heart', 'butterfly', 'ladybug', 'star', 'sprig', 'hello'];
+const DOODLES = ['sparkle', 'sparklePink', 'circle', 'underline', 'arrow', 'swirl'];
+
+const sheet = document.getElementById('sheet');
+for (const id of [...STICKERS, ...DOODLES]) {
+  const isSticker = STICKERS.includes(id);
+  const div = document.createElement('div'); div.className = 'item'; div.id = 'item-' + id;
+  div.innerHTML = `<svg viewBox="-24 -24 248 248" xmlns="http://www.w3.org/2000/svg">${isSticker ? `<g filter="url(#sticker)">${art[id]()}</g>` : art[id]()}</svg>`;
+  sheet.appendChild(div);
+}
+document.fonts.ready.then(() => { window.__ready = true; });
+window.__ids = { stickers: STICKERS, doodles: DOODLES };
+</script>
+</body>
+</html>
