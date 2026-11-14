@@ -243,7 +243,7 @@ a.sticky:hover { transform: rotate(0deg) translateY(-3px) !important; }
 .job__metric b { color: var(--grass); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 10px 0 0; padding: 0; }
 .chips li { padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid rgba(31, 30, 26, .35); font: 500 11px/1.3 var(--f-mono); }
-.about__sticky { position: absolute; right: 56px; bottom: 56px; transform: rotate(4deg); }
+.about__sticky { position: absolute; right: 32px; bottom: 40px; max-width: 200px; transform: rotate(4deg); }
 
 /* ---------- Hobbies: flip polaroids ---------- */
 .flip { perspective: 1200px; width: 228px; position: relative; }
@@ -269,10 +269,10 @@ a.sticky:hover { transform: rotate(0deg) translateY(-3px) !important; }
 .flip .polaroid, .flip .photo { width: 100%; }
 .flip button:focus-visible { outline: 3px solid var(--grass); outline-offset: 6px; }
 .hobbies__big { width: 300px; transform: rotate(-4deg); margin-top: 40px; }
-.hobbies__grid { position: relative; height: 640px; }
+.hobbies__grid { position: relative; height: 600px; }
 .hobbies__grid .flip:nth-child(1) { position: absolute; left: 0; top: 8px; transform: rotate(3deg); }
 .hobbies__grid .flip:nth-child(2) { position: absolute; left: 260px; top: 40px; transform: rotate(-4deg); }
-.hobbies__grid .flip:nth-child(3) { position: absolute; left: 96px; top: 340px; transform: rotate(-2deg); }
+.hobbies__grid .flip:nth-child(3) { position: absolute; left: 96px; top: 318px; transform: rotate(-2deg); }
 .hobbies__ask { position: absolute; right: 16px; bottom: 64px; max-width: 210px; transform: rotate(5deg); }
 .hobbies__ask b { font-size: 25px; white-space: nowrap; }
 
@@ -568,3 +568,75 @@ body::after {
   .page--left::after, .page--right::after { background: linear-gradient(115deg, rgba(255,255,255,.28), rgba(255,255,255,0) 38%, rgba(60,35,25,.05) 100%); transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .polaroid, .sticky { transition: none; } }
+
+
+/* ==========================================================
+   Sticker collage, binder clips, running headers
+   ========================================================== */
+:root {
+  --clip-l: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='90' viewBox='0 0 64 90'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23dfe2e6'/><stop offset='.5' stop-color='%23f8f9fb'/><stop offset='1' stop-color='%23a4a9b1'/></linearGradient></defs><ellipse cx='42' cy='86' rx='20' ry='3' fill='rgba(0,0,0,.25)'/><path d='M22 36 C 10 30 3 38 3 45 C 3 52 10 60 22 54' fill='none' stroke='%237d838b' stroke-width='3.6' stroke-linecap='round'/><path d='M22 36 C 11 31 5 38 5 45' fill='none' stroke='%23e6e8eb' stroke-width='1.2' stroke-linecap='round'/><polygon points='20,32 62,8 62,82 20,58' fill='url(%23g)' stroke='%236f757d' stroke-width='1.8' stroke-linejoin='round'/><polygon points='27,37 41,29 41,61 27,53' fill='rgba(255,255,255,.65)'/><polygon points='52,14 60,10 60,80 52,76' fill='rgba(0,0,0,.12)'/></svg>");
+  --clip-r: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='90' viewBox='0 0 64 90'><defs><linearGradient id='g' x1='1' y1='0' x2='0' y2='0'><stop offset='0' stop-color='%23dfe2e6'/><stop offset='.5' stop-color='%23f8f9fb'/><stop offset='1' stop-color='%23a4a9b1'/></linearGradient></defs><ellipse cx='22' cy='86' rx='20' ry='3' fill='rgba(0,0,0,.25)'/><path d='M42 36 C 54 30 61 38 61 45 C 61 52 54 60 42 54' fill='none' stroke='%237d838b' stroke-width='3.6' stroke-linecap='round'/><path d='M42 36 C 53 31 59 38 59 45' fill='none' stroke='%23e6e8eb' stroke-width='1.2' stroke-linecap='round'/><polygon points='44,32 2,8 2,82 44,58' fill='url(%23g)' stroke='%236f757d' stroke-width='1.8' stroke-linejoin='round'/><polygon points='37,37 23,29 23,61 37,53' fill='rgba(255,255,255,.65)'/><polygon points='12,14 4,10 4,80 12,76' fill='rgba(0,0,0,.12)'/></svg>");
+}
+
+/* binder clips holding the notebook (wide screens only — they would overflow narrower ones) */
+.spread::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -50px; right: -50px; z-index: 7; pointer-events: none;
+  background:
+    var(--clip-l) left top 62% / 84px 118px no-repeat,
+    var(--clip-r) right top 82% / 84px 118px no-repeat;
+  filter: drop-shadow(2px 4px 4px rgba(40, 25, 20, .28));
+}
+@media (max-width: 1419px) { .spread::before { display: none; } }
+
+/* running header: name left, "Portfolio 2026" right, thin rule under */
+.page { padding-top: 84px; }
+.runhead {
+  position: absolute; z-index: 6; left: 56px; right: 56px; top: 26px; padding-bottom: 9px;
+  border-bottom: 1px solid rgba(31, 30, 26, .38);
+  font: 500 12px/1 var(--f-mono); letter-spacing: .08em; color: var(--ink-2);
+}
+.runhead--right { text-align: right; }
+@media (max-width: 900px) { .runhead--right { display: none; } .page { padding-top: 76px; } .page--right { padding-top: 40px; } }
+
+/* ---- die-cut text stickers (flat, bold) ---- */
+.collage { list-style: none; margin: 8px 0 0; padding: 4px 2px 6px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 0; }
+.stk {
+  --c-bg: var(--blush); --c-fg: var(--ink);
+  margin: -2px -3px; position: relative;
+  transform: rotate(var(--r, 0deg));
+  transition: transform .28s var(--ease-out);
+  filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 3px 4px rgba(40, 25, 20, .30));
+  cursor: default;
+}
+.stk > span {
+  display: grid; place-items: center; text-align: center;
+  background: var(--c-bg); color: var(--c-fg);
+  font: 700 12px/1.05 var(--f-sans); text-transform: uppercase; letter-spacing: .05em;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 45%);
+}
+.stk:hover { transform: rotate(0deg) translateY(-5px) scale(1.08); z-index: 3; }
+.stk--pill > span { padding: 9px 15px; border-radius: 999px; }
+.stk--tag > span { padding: 9px 13px; border-radius: 7px; }
+.stk--ribbon > span { padding: 10px 22px; clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%); }
+.stk--round > span { width: 70px; height: 70px; border-radius: 50%; padding: 6px; font-size: 11px; }
+.stk--burst > span { width: 86px; height: 86px; padding: 14px; font-size: 10.5px; clip-path: polygon(50.0% 0.0%, 56.4% 9.5%, 65.5% 2.4%, 68.6% 13.5%, 79.4% 9.5%, 79.0% 21.0%, 90.5% 20.6%, 86.5% 31.4%, 97.6% 34.5%, 90.5% 43.6%, 100.0% 50.0%, 90.5% 56.4%, 97.6% 65.5%, 86.5% 68.6%, 90.5% 79.4%, 79.0% 79.0%, 79.4% 90.5%, 68.6% 86.5%, 65.5% 97.6%, 56.4% 90.5%, 50.0% 100.0%, 43.6% 90.5%, 34.5% 97.6%, 31.4% 86.5%, 20.6% 90.5%, 21.0% 79.0%, 9.5% 79.4%, 13.5% 68.6%, 2.4% 65.5%, 9.5% 56.4%, 0.0% 50.0%, 9.5% 43.6%, 2.4% 34.5%, 13.5% 31.4%, 9.5% 20.6%, 21.0% 21.0%, 20.6% 9.5%, 31.4% 13.5%, 34.5% 2.4%, 43.6% 9.5%); }
+.c1 { --c-bg: var(--blush); --c-fg: #3b0f1a; }
+.c2 { --c-bg: var(--pistachio); --c-fg: var(--melon); }
+.c3 { --c-bg: var(--butter); --c-fg: var(--ink); }
+.c4 { --c-bg: #C9B6F0; --c-fg: #3c2278; }
+.c5 { --c-bg: var(--clip-blue); --c-fg: #17395f; }
+.c6 { --c-bg: var(--grass); --c-fg: var(--melon); }
+.c7 { --c-bg: #F4B27C; --c-fg: #4a2208; }
+.c8 { --c-bg: var(--ink); --c-fg: var(--melon); }
+.also { margin: 6px 0 0; font: 500 11px/1.55 var(--f-mono); color: var(--ink-2); }
+
+/* ---- watercolour decor stickers ---- */
+.stk-img {
+  position: absolute; z-index: 4; width: var(--w, 100px); height: auto;
+  transform: rotate(var(--r, 0deg)); transform-origin: 50% 60%;
+  filter: drop-shadow(0 2px 2px rgba(40, 25, 20, .18));
+  transition: transform .3s var(--ease-out), filter .3s var(--ease-out);
+}
+.stk-img:hover { transform: rotate(calc(var(--r, 0deg) + 5deg)) translateY(-5px) scale(1.06); filter: drop-shadow(0 10px 8px rgba(40, 25, 20, .22)); }
+@media (max-width: 900px) { .stk-img { display: none; } }
+@media (prefers-reduced-motion: reduce) { .stk, .stk-img { transition: none; } }

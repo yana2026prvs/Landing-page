@@ -56,6 +56,9 @@ window.I18N_UA = {
   "about.j3": "час найму",
   "about.do": "Що я роблю",
   "about.tools": "Інструменти",
+  "about.skills": "Навички та інструменти",
+  "about.also": "також",
+  "run.right": "Портфоліо 2026",
 
   "hobbies.kicker": "поза роботою",
   "hobbies.title": "Життя поза Figma",
