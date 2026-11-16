@@ -778,3 +778,85 @@ html.js .runhead { border-bottom: 2px solid color-mix(in srgb, var(--tab-c, #8a8
   }
   html.js main > nav { height: 820px; }
 }
+
+/* ==========================================================
+   Physical notebook: cloth cover, page block, sagging pages, stitched spine
+   ========================================================== */
+:root {
+  --cover: #C98490;
+  --cover-dark: #A9646F;
+  --linen: repeating-linear-gradient(0deg, rgba(255, 255, 255, .07) 0 1px, transparent 1px 3px),
+           repeating-linear-gradient(90deg, rgba(60, 20, 30, .07) 0 1px, transparent 1px 3px);
+}
+.spread {
+  padding: 12px 14px 16px;
+  border-radius: 12px;
+  background-color: var(--cover);
+  background-image: var(--grain), var(--linen),
+    radial-gradient(120% 140% at 30% 0%, rgba(255, 255, 255, .18), transparent 60%);
+  background-size: 220px 220px, auto, auto, auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .28), inset 0 -2px 0 rgba(60, 20, 30, .22),
+    inset 1px 0 0 rgba(255, 255, 255, .12), inset -1px 0 0 rgba(60, 20, 30, .18),
+    0 1px 1px rgba(40, 20, 20, .28), 0 6px 10px rgba(40, 20, 20, .22),
+    0 22px 40px rgba(40, 20, 20, .24), 0 52px 90px rgba(40, 20, 20, .20);
+}
+
+/* the block of pages: thin sheets visible on the outer edges and bottom */
+.page--left {
+  border-radius: 6px 0 0 6px;
+  border-top-right-radius: 34px 7px;      /* pages dip into the spine */
+  border-bottom-right-radius: 34px 7px;
+  box-shadow:
+    -1px 1px 0 #efe6d6, -2px 2px 0 #fffaf1, -3px 2px 0 #e4d9c6, -4px 3px 0 #faf3e6,
+    -5px 3px 0 #dccfb9, -6px 4px 0 #f4ecde, -7px 4px 0 rgba(120, 90, 70, .35);
+}
+.page--right {
+  border-radius: 0 6px 6px 0;
+  border-top-left-radius: 34px 7px;
+  border-bottom-left-radius: 34px 7px;
+  box-shadow:
+    1px 1px 0 #efe6d6, 2px 2px 0 #fffaf1, 3px 2px 0 #e4d9c6, 4px 3px 0 #faf3e6,
+    5px 3px 0 #dccfb9, 6px 4px 0 #f4ecde, 7px 4px 0 rgba(120, 90, 70, .35);
+}
+/* paper curving: highlight on the raised outer half, soft fall-off into the gutter */
+.page--left::after {
+  background:
+    linear-gradient(90deg, rgba(60, 35, 25, .06) 0%, rgba(255, 255, 255, .22) 18%, rgba(255, 255, 255, 0) 55%, rgba(60, 35, 25, .07) 82%, rgba(60, 35, 25, .20) 96%, rgba(60, 35, 25, .30) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 30%, rgba(60, 35, 25, .04) 100%);
+  transform: none;
+}
+.page--right::after {
+  background:
+    linear-gradient(270deg, rgba(60, 35, 25, .06) 0%, rgba(255, 255, 255, .22) 18%, rgba(255, 255, 255, 0) 55%, rgba(60, 35, 25, .07) 82%, rgba(60, 35, 25, .20) 96%, rgba(60, 35, 25, .30) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 30%, rgba(60, 35, 25, .04) 100%);
+  transform: none;
+}
+/* spine: crease + thread stitches */
+.spread::after {
+  top: 12px; bottom: 16px; width: 40px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 30px, rgba(140, 105, 85, .75) 30px 44px) center / 2px 100% no-repeat,
+    radial-gradient(closest-side, rgba(255, 255, 255, .5), transparent) center / 3px 100% no-repeat,
+    linear-gradient(90deg, transparent, rgba(60, 35, 25, .14) 42%, rgba(60, 35, 25, .26) 50%, rgba(60, 35, 25, .14) 58%, transparent);
+}
+
+/* stage geometry follows the new cover margins */
+@media (min-width: 1101px) {
+  html.js .spread { height: 848px; }
+  html.js main > nav { height: 848px; }
+  .leaf { top: 12px; height: calc(100% - 28px); width: calc(50% - 14px); }
+  .leaf--back { left: 14px; }
+  .leaf__face { border-radius: 0; }
+  .leaf--fwd .leaf__face > .page { border-radius: 0 6px 6px 0; box-shadow: none; }
+  .leaf--back .leaf__face > .page { border-radius: 6px 0 0 6px; box-shadow: none; }
+}
+@media (max-width: 900px) {
+  .spread { padding: 10px 10px 14px; }
+  .page--left, .page--right { border-radius: 6px; box-shadow: 0 1px 0 #efe6d6, 0 2px 0 #dccfb9; }
+  .page--left::after, .page--right::after { background: linear-gradient(115deg, rgba(255,255,255,.25), rgba(255,255,255,0) 40%, rgba(60,35,25,.05)); }
+}
+/* keep the About spread inside the page after the cover margins */
+.job { padding: 10px 0; }
+.collage { margin-top: 4px; }
+#about .page--right .h3 { margin-top: -6px; }
