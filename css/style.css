@@ -764,3 +764,17 @@ html.js .runhead { border-bottom: 2px solid color-mix(in srgb, var(--tab-c, #8a8
   html.js main > nav .tabs a:focus-visible { outline: 3px solid var(--grass); outline-offset: 2px; }
 }
 @media (prefers-reduced-motion: reduce) { html.js main > nav .tabs a { transition: none; } }
+
+/* ---- Robust centring: do not depend on grid track sizing (it drifts when the stage is narrower than the notebook) ---- */
+@media (min-width: 1101px) {
+  html.js main { display: block; padding: 0 !important; }
+  html.js main > .section,
+  html.js main > nav {
+    position: absolute; left: 50%; top: 50%; grid-area: auto;
+    width: 1208px; margin: 0;
+    /* the group (clips ← notebook → bookmarks) is asymmetric: nudge the notebook left so the whole group is centred */
+    transform: translate(calc(-50% - 30px * var(--fit, 1)), -50%) scale(var(--fit, 1));
+    transform-origin: 50% 50%;
+  }
+  html.js main > nav { height: 820px; }
+}

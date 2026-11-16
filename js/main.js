@@ -184,10 +184,11 @@
   function fit() {
     if (!main) return;
     if (!stageMQ.matches) { main.style.removeProperty('--fit'); return; }
-    var w = innerWidth, h = innerHeight;
-    // the notebook (1208) + clips on the left (≈50) + tabs sticking out on the right (≈90)
-    var f = Math.min(1, (w - 24) / 1380, (h - 28) / 840);
-    main.style.setProperty('--fit', f.toFixed(3));
+    // real size of the stage (works inside embedded previews, where innerWidth can lie)
+    var w = main.clientWidth || innerWidth, h = main.clientHeight || innerHeight;
+    // notebook 1208 + clips on the left (≈50) + bookmarks sticking out on the right (≈110) + breathing room
+    var f = Math.min(1, (w - 24) / 1380, (h - 28) / 850);
+    main.style.setProperty('--fit', Math.max(f, .5).toFixed(3));
   }
 
   if (Object.keys(sections).length) {
