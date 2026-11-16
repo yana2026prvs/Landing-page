@@ -716,3 +716,51 @@ html.js main > .section.is-active { animation: sec-in .35s var(--ease-out); }
 @media (min-width: 1101px) and (min-width: 1420px) { html.js main { --stage-r: 128px; } }
 @media (min-width: 1101px) and (max-width: 1419px) { html.js main { --stage-b: 88px; } }
 @media (prefers-reduced-motion: reduce) { html.js main > .section.is-active { animation: none; } }
+
+/* ==========================================================
+   Bookmarks: tabs are attached to the notebook and pop out when active
+   ========================================================== */
+html.js main[data-tab="top"]     { --tab-c: #B9A5E8; }
+html.js main[data-tab="work"]    { --tab-c: #F98093; }
+html.js main[data-tab="about"]   { --tab-c: #8DB8E6; }
+html.js main[data-tab="hobbies"] { --tab-c: #E8C94F; }
+html.js main[data-tab="contact"] { --tab-c: #699407; }
+html.js .runhead { border-bottom: 2px solid color-mix(in srgb, var(--tab-c, #8a8579) 75%, transparent); transition: border-color .45s; }
+
+/* narrow screens: the bottom bar lifts the active tab */
+.tabs a[aria-current="true"] { font-weight: 700; }
+@media (max-width: 1100px) {
+  html.js .tabs a { transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), outline-color .2s; }
+  html.js .tabs a[aria-current="true"] { transform: translateY(-5px); }
+}
+
+@media (min-width: 1101px) {
+  html.js main { --stage-r: 24px !important; --stage-b: 0px !important; }
+  html.js main > nav {
+    grid-area: 1 / 1; position: relative; z-index: 1;
+    width: 1208px; height: 820px; pointer-events: none;
+    transform: scale(var(--fit, 1)); transform-origin: center center;
+  }
+  html.js main > nav .tabs {
+    position: absolute; top: 74px; left: calc(100% - 46px); right: auto; bottom: auto;
+    transform: none; flex-direction: column; gap: 12px; padding: 0; margin: 0;
+    background: none; box-shadow: none; border-radius: 0; max-width: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  html.js main > nav .tabs a {
+    pointer-events: auto;
+    width: 128px; height: 60px; padding: 0 0 0 56px; border-radius: 0 14px 14px 0;
+    font-size: 16px; justify-content: flex-start;
+    box-shadow: 2px 3px 8px rgba(40, 25, 20, .22), inset -1px 0 0 rgba(255, 255, 255, .4), inset 0 -3px 0 rgba(0, 0, 0, .08);
+    transform: translateX(0);
+    transition: transform .55s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s;
+    outline: 0;
+  }
+  html.js main > nav .tabs a:hover { transform: translateX(10px); }
+  html.js main > nav .tabs a[aria-current="true"] {
+    transform: translateX(28px); font-weight: 700;
+    box-shadow: 4px 5px 12px rgba(40, 25, 20, .28), inset -1px 0 0 rgba(255, 255, 255, .5), inset 0 -3px 0 rgba(0, 0, 0, .1);
+  }
+  html.js main > nav .tabs a:focus-visible { outline: 3px solid var(--grass); outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { html.js main > nav .tabs a { transition: none; } }

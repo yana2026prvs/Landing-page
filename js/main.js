@@ -104,6 +104,13 @@
 
   function idFromHash() { var h = (location.hash || '').slice(1); return sections[h] ? h : 'top'; }
 
+  function markTab(id) {
+    if (main) main.setAttribute('data-tab', id);
+    tabLinks.forEach(function (a) {
+      a.setAttribute('aria-current', a.getAttribute('href') === '#' + id ? 'true' : 'false');
+    });
+  }
+
   function setActive(id) {
     ORDER.forEach(function (k) {
       var el = sections[k]; if (!el) return;
@@ -113,9 +120,7 @@
       if (on) { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); }
       else { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); }
     });
-    tabLinks.forEach(function (a) {
-      a.setAttribute('aria-current', a.getAttribute('href') === '#' + id ? 'true' : 'false');
-    });
+    markTab(id);
     current = id;
     updateTurns();
     if (!stageMQ.matches) window.scrollTo(0, 0);
@@ -131,6 +136,7 @@
     if (!sections[id] || id === current || busy) return;
     if (!fromHashChange && location.hash !== '#' + id) { try { history.pushState(null, '', '#' + id); } catch (e) { location.hash = id; } }
     var from = current, dir = ORDER.indexOf(id) > ORDER.indexOf(from) ? 1 : -1;
+    markTab(id);
     if (!stageMQ.matches || reduce.matches || !from) { setActive(id); return; }
     busy = true;
     var A = sections[from], B = sections[id];
@@ -179,8 +185,8 @@
     if (!main) return;
     if (!stageMQ.matches) { main.style.removeProperty('--fit'); return; }
     var w = innerWidth, h = innerHeight;
-    var r = w >= 1420 ? 128 : 24, b = w >= 1420 ? 0 : 88;
-    var f = Math.min(1, (w - r - 24) / 1300, (h - b - 28) / 840);
+    // the notebook (1208) + clips on the left (≈50) + tabs sticking out on the right (≈90)
+    var f = Math.min(1, (w - 24) / 1380, (h - 28) / 840);
     main.style.setProperty('--fit', f.toFixed(3));
   }
 
