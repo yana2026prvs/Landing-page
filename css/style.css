@@ -428,7 +428,8 @@ html.play-loader .loader {
   .section:first-child { padding-top: 72px; }
   .case-wrap { padding-top: 72px; }
   .lang { top: 14px; right: 14px; }
-  .tabs a { padding: 0 12px; font-size: 14px; }
+  .tabs { gap: 3px; padding: 5px; max-width: calc(100vw - 16px); }
+  .tabs a { padding: 0 9px; height: 40px; font-size: 13px; }
   .actions .btn { flex: 1 1 100%; }
   .row { padding: 14px 8px; gap: 10px; flex-wrap: wrap; }
   .row__leader, .row__go { display: none; }
@@ -640,3 +641,78 @@ body::after {
 .stk-img:hover { transform: rotate(calc(var(--r, 0deg) + 5deg)) translateY(-5px) scale(1.06); filter: drop-shadow(0 10px 8px rgba(40, 25, 20, .22)); }
 @media (max-width: 900px) { .stk-img { display: none; } }
 @media (prefers-reduced-motion: reduce) { .stk, .stk-img { transition: none; } }
+
+/* ==========================================================
+   Notebook stage: one spread at a time, tabs turn the page
+   ========================================================== */
+.tab--home { background: var(--lilac); }
+
+/* corner turn buttons (stage mode only) */
+.turn { display: none; }
+
+/* below 1101px: single flow, only the active section is shown, soft fade between them */
+html.js main > .section:not(.is-active) { display: none; }
+html.js main > .section.is-active { animation: sec-in .35s var(--ease-out); }
+@keyframes sec-in { from { opacity: 0; transform: translateY(8px); } }
+
+@media (min-width: 1101px) {
+  html.js, html.js body { height: 100%; overflow: hidden; }
+  html.js main {
+    position: fixed; inset: 0; z-index: 1;
+    padding: 12px 24px 0 24px; --stage-r: 24px; --stage-b: 0px;
+    padding-right: var(--stage-r); padding-bottom: var(--stage-b);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  html.js main > .section {
+    grid-area: 1 / 1; width: 1208px; padding: 0; margin: 0;
+    display: block !important; animation: none;
+    visibility: hidden; pointer-events: none;
+    transform: scale(var(--fit, 1)); transform-origin: center center;
+  }
+  html.js main > .section.is-active { visibility: visible; pointer-events: auto; z-index: 3; }
+  html.js main > .section.is-under { visibility: visible; z-index: 2; }
+  html.js .spread { height: 820px; margin: 0; }
+  html.js .page { height: 100%; min-height: 0; }
+  html.js .footer { display: none; }
+
+  /* page-turn: the moving leaf lives inside the spread that is leaving */
+  html.js .flip-fwd .spread, html.js .flip-back .spread { perspective: 4200px; background: transparent; }
+  html.js .flip-fwd .page--right, html.js .flip-back .page--left { visibility: hidden; }
+  .leaf {
+    position: absolute; top: 0; z-index: 12; height: calc(100% - 8px); width: calc(50% - 4px);
+    transform-style: preserve-3d; transition: transform .95s cubic-bezier(.5, .05, .2, 1);
+    pointer-events: none;
+  }
+  .leaf--fwd { left: 50%; transform-origin: left center; }
+  .leaf--back { left: 4px; transform-origin: right center; }
+  .leaf--fwd.go { transform: rotateY(-180deg); }
+  .leaf--back.go { transform: rotateY(180deg); }
+  .leaf__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+  .leaf__back { transform: rotateY(180deg); }
+  .leaf__face > .page { height: 100%; min-height: 0; position: absolute; inset: 0; width: 100%; }
+  .leaf .page::before { mix-blend-mode: normal; opacity: .12; }
+  .leaf__face::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: linear-gradient(90deg, rgba(40, 25, 20, .0), rgba(40, 25, 20, .32));
+  }
+  .leaf--back .leaf__face::after { background: linear-gradient(270deg, rgba(40, 25, 20, .0), rgba(40, 25, 20, .32)); }
+  .leaf.go .leaf__face::after { animation: leaf-shade .95s ease-in-out; }
+  @keyframes leaf-shade { 0% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* corner turn buttons */
+  .turn {
+    display: grid; place-items: center; position: absolute; z-index: 9; bottom: 22px;
+    width: 46px; height: 46px; border: 0; border-radius: 50%; cursor: pointer;
+    background: #fff; color: var(--ink); font: 700 26px/1 var(--f-sans); padding: 0 0 4px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s var(--ease-out), background-color .2s, color .2s;
+  }
+  .turn[hidden] { display: none; }
+  .turn--next { right: 26px; }
+  .turn--prev { left: 26px; }
+  .turn:hover { transform: scale(1.1); background: var(--grass); color: var(--melon); }
+  html.js .flip-fwd .turn, html.js .flip-back .turn { visibility: hidden; }
+}
+@media (min-width: 1101px) and (min-width: 1420px) { html.js main { --stage-r: 128px; } }
+@media (min-width: 1101px) and (max-width: 1419px) { html.js main { --stage-b: 88px; } }
+@media (prefers-reduced-motion: reduce) { html.js main > .section.is-active { animation: none; } }

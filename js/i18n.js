@@ -1,6 +1,7 @@
 /* Ukrainian strings. English lives in the HTML itself and is restored from there. */
 window.I18N_UA = {
   "skip": "Перейти до змісту",
+  "nav.home": "Головна",
   "nav.work": "Роботи",
   "nav.about": "Про мене",
   "nav.hobbies": "Хобі",
