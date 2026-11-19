@@ -18,19 +18,19 @@
 
       <!-- Tabs (sit behind the pages, peek out on the right) -->
       <nav class="tabs" aria-label="Main">
-        <a class="tab tab--active" href="#" aria-current="page" style="left:1119px;top:53px">
+        <a class="tab tab--active" href="#home" data-section="home" aria-current="page" style="left:1089px;top:53px">
           <span class="tab__bg" style="left:0"><span class="tab__img" style="width:63px"><span class="crop"><img src="assets/img/tab-home.webp" alt="" style="width:602.35%;height:124.45%;left:-62.75%;top:-12.75%"></span></span></span>
-          <span class="tab__label" style="left:126px;font-weight:700">Home</span>
+          <span class="tab__label" style="left:126px">Home</span>
         </a>
-        <a class="tab" href="#works" style="left:1089px;top:126px">
+        <a class="tab" href="#works" data-section="works" style="left:1089px;top:126px">
           <span class="tab__bg" style="left:0"><span class="tab__img" style="width:63px"><img class="fill" src="assets/img/tab-works.webp" alt=""></span></span>
           <span class="tab__label" style="left:125px">Works</span>
         </a>
-        <a class="tab" href="#about" style="left:1089px;top:196px">
+        <a class="tab" href="#about" data-section="about" style="left:1089px;top:196px">
           <span class="tab__bg" style="left:2px"><span class="tab__img" style="width:63px"><img class="fill" src="assets/img/tab-about.webp" alt=""></span></span>
           <span class="tab__label" style="left:127px">About</span>
         </a>
-        <a class="tab" href="#life" style="left:1089px;top:266px">
+        <a class="tab" href="#life" data-section="life" style="left:1089px;top:266px">
           <span class="tab__bg" style="left:2px;height:61px"><span class="tab__img" style="width:61px"><img class="fill" src="assets/img/tab-life.webp" alt=""></span></span>
           <span class="tab__label" style="left:127px">Life</span>
         </a>
@@ -50,7 +50,7 @@
       <div class="stitches"><img src="assets/svg/stitches.svg" alt=""></div>
 
       <!-- LEFT PAGE -->
-      <section class="page page--left" aria-label="Intro">
+      <section class="page page--left" data-spread="home" aria-label="Intro">
         <div class="grid"></div>
         <div class="shade shade--left"></div>
         <div class="edge-top"></div>
@@ -90,7 +90,8 @@
           <span class="headline__l1">A product designer</span>
           <span class="headline__l2">who creates</span>
           <span class="rot" style="left:353.3px;top:282.3px;width:181.373px;height:60.51px"><span class="hand hand--pink" style="width:178.255px;height:46.61px;transform:rotate(4.52deg)">intuitive</span></span>
-          <span class="visually-hidden">meaningful products</span>
+          <span class="rot" style="left:44px;top:335.23px;width:226.719px;height:61.921px"><span class="hand hand--green" style="transform:rotate(-4.11deg)">meaningful</span></span>
+          <span class="products">products</span>
         </h1>
         <span class="rot ink-blend" style="left:307.3px;top:272.3px;width:269.638px;height:77.64px"><span class="ink ink--static" style="width:265.992px;height:56.971px;transform:rotate(4.49deg)"><span style="inset:-3.32% -.93% -3.45% -.54%"><img src="assets/svg/pen-double-loop-lg.svg" alt=""></span></span></span>
 
@@ -100,7 +101,7 @@
       </section>
 
       <!-- RIGHT PAGE -->
-      <section class="page page--right" aria-labelledby="find-me">
+      <section class="page page--right" data-spread="home" aria-labelledby="find-me">
         <div class="page__inner">
           <div class="grid"></div>
           <div class="shade shade--right"></div>
@@ -156,11 +157,35 @@
 
       <div class="crease crease--front"></div>
     </div>
-
-    <!-- Headline words that overflow the notebook layer in the design -->
-    <span class="rot" aria-hidden="true" style="left:174.7px;top:372.93px;width:226.719px;height:61.921px"><span class="hand hand--green" style="transform:rotate(-4.11deg)">meaningful</span></span>
-    <span class="products" aria-hidden="true">products</span>
   </main>
+
+  <!-- Placeholder spread for sections that are not designed yet -->
+  <template id="blank-spread">
+    <section class="page page--left">
+      <div class="grid"></div>
+      <div class="shade shade--left"></div>
+      <div class="edge-top"></div>
+      <div class="edge-bottom" style="top:805.3px"></div>
+      <div class="page-head" style="left:47.3px;top:24.3px">
+        <p class="page-head__label">Yana Prydeus</p>
+        <span class="ink ink--static" style="width:503.11px;height:2.57px"><span style="inset:-96.88% -.14% -111.04% -.14%"><img src="assets/svg/line-left.svg" alt=""></span></span>
+      </div>
+      <h2 class="section-title" data-slot="title"></h2>
+      <span class="rot" style="left:44.3px;top:120px;width:300px;height:90px"><span class="greeting greeting--sm" style="transform:rotate(-4.59deg)">coming soon…</span></span>
+    </section>
+    <section class="page page--right">
+      <div class="page__inner">
+        <div class="grid"></div>
+        <div class="shade shade--right"></div>
+        <div class="edge-top"></div>
+        <div class="edge-bottom" style="top:806px"></div>
+        <div class="page-head page-head--right" style="left:48px;top:25px">
+          <p class="page-head__label">2026</p>
+          <span class="ink ink--static" style="width:504.01px;height:1.929px"><span style="inset:-116.81% -.14% -103.23% -.14%"><img src="assets/svg/line-right.svg" alt=""></span></span>
+        </div>
+      </div>
+    </section>
+  </template>
 
   <script src="js/main.js"></script>
 </body>
