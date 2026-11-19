@@ -72,7 +72,8 @@ img { display: block; }
   background: var(--cover);
   border: 1px solid rgba(128, 74, 87, .34);
   border-radius: 12px;
-  filter: drop-shadow(-2px 6px 3.9px rgba(33, 18, 13, .12)) drop-shadow(0 2px 1px rgba(33, 18, 13, .18));
+  /* box-shadow instead of filter: a filtered ancestor gets re-rasterised on every flip frame */
+  box-shadow: -2px 6px 3.9px rgba(33, 18, 13, .12), 0 2px 1px rgba(33, 18, 13, .18);
   perspective: 2600px;
   perspective-origin: 611px 421px;
 }
@@ -84,6 +85,7 @@ img { display: block; }
   text-decoration: none;
   color: var(--ink-primary);
   transition: transform .2s ease;
+  filter: drop-shadow(-2px 6px 3.9px rgba(33, 18, 13, .12)) drop-shadow(0 2px 1px rgba(33, 18, 13, .18));
 }
 .tab:hover, .tab:focus-visible { transform: translateX(8px); }
 .tab:focus-visible { outline: none; }
@@ -351,6 +353,7 @@ img { display: block; }
   position: absolute; top: 11px;
   width: 590px; height: 820px;
   transform-style: preserve-3d;
+  will-change: transform;
   z-index: 5;
   pointer-events: none;
 }
@@ -368,7 +371,7 @@ img { display: block; }
   pointer-events: none;
   opacity: 0;
 }
-.leaf__shade { z-index: 2; border-radius: inherit; }
+.leaf__shade { z-index: 2; border-radius: inherit; will-change: opacity; }
 .leaf--fwd  .leaf__face--front .leaf__shade,
 .leaf--back .leaf__face--back  .leaf__shade { background: linear-gradient(90deg, rgba(40,25,15,.35), rgba(40,25,15,.08) 60%, rgba(40,25,15,.18)); }
 .leaf--fwd  .leaf__face--back  .leaf__shade,

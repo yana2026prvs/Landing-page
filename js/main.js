@@ -18,8 +18,18 @@
 (function () {
   var ORDER = ['home', 'works', 'about', 'life'];
   var TITLES = { works: 'Works', about: 'About', life: 'Life' };
-  var DURATION = 1100;
-  var EASE = 'cubic-bezier(.45,.05,.3,1)';
+  var DURATION = 1350;
+  // slow lift, quick middle, long soft landing
+  var EASE = 'cubic-bezier(.5,.05,.2,1)';
+  var STEPS = 24;
+
+  // Build smooth keyframes from a function of progress t∈[0,1] (no kinks between keyframes).
+  function frames(fn) {
+    var out = [];
+    for (var i = 0; i <= STEPS; i++) { var t = i / STEPS; var f = fn(t); f.offset = t; out.push(f); }
+    return out;
+  }
+  var bell = function (t) { return Math.sin(Math.PI * t); };
 
   var notebook = document.querySelector('.notebook');
   var anchor = notebook.querySelector('.crease--front');
@@ -112,14 +122,19 @@
 
     var sign = fwd ? -1 : 1;
     var opts = { duration: DURATION, easing: EASE, fill: 'forwards' };
-    var turn = leaf.animate([
-      { transform: 'rotateY(0deg)' },
-      { transform: 'rotateY(' + (sign * 90) + 'deg) translateZ(30px)', offset: .5 },
-      { transform: 'rotateY(' + (sign * 180) + 'deg)' }
-    ], opts);
-    fFront.querySelector('.leaf__shade').animate([{ opacity: 0 }, { opacity: 1, offset: .5 }, { opacity: 1 }], opts);
-    fBack.querySelector('.leaf__shade').animate([{ opacity: 1 }, { opacity: 1, offset: .5 }, { opacity: 0 }], opts);
-    shadow.animate([{ opacity: 1 }, { opacity: .6, offset: .5 }, { opacity: 0 }], opts);
+    var turn = leaf.animate(frames(function (t) {
+      // the page lifts off the paper and settles back down, like a real sheet
+      return { transform: 'rotateY(' + (sign * 180 * t) + 'deg) translateZ(' + (24 * bell(t)) + 'px)' };
+    }), opts);
+    fFront.querySelector('.leaf__shade').animate(frames(function (t) {
+      return { opacity: Math.min(1, Math.pow(Math.min(t * 2, 1), 1.6)) };
+    }), opts);
+    fBack.querySelector('.leaf__shade').animate(frames(function (t) {
+      return { opacity: Math.min(1, Math.pow(Math.max(0, 2 - t * 2), 1.6)) };
+    }), opts);
+    shadow.animate(frames(function (t) {
+      return { opacity: 0.85 * Math.pow(1 - t, 1.5) };
+    }), opts);
 
     turn.onfinish = function () {
       [front, back].forEach(function (p) { notebook.insertBefore(p, anchor); });
