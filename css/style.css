@@ -74,8 +74,6 @@ img { display: block; }
   border-radius: 12px;
   /* box-shadow instead of filter: a filtered ancestor gets re-rasterised on every flip frame */
   box-shadow: -2px 6px 3.9px rgba(33, 18, 13, .12), 0 2px 1px rgba(33, 18, 13, .18);
-  perspective: 2600px;
-  perspective-origin: 611px 421px;
 }
 
 /* Tabs */
@@ -348,37 +346,20 @@ img { display: block; }
 .greeting--sm { font-size: 40px; }
 .page[hidden] { display: none; }
 
-/* ---------- Page flip ---------- */
-.leaf {
+/* ---------- Page flip (2D paper curl, geometry driven from js/main.js) ---------- */
+.curl {
   position: absolute; top: 11px;
-  width: 590px; height: 820px;
-  transform-style: preserve-3d;
-  will-change: transform;
+  width: 0; height: 0;
+  overflow: visible;
   z-index: 5;
   pointer-events: none;
 }
-.leaf--fwd  { left: 611px; transform-origin: 0 50%; }
-.leaf--back { left: 21px;  transform-origin: 100% 50%; }
-.leaf__face {
-  position: absolute; inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.leaf__face--back { transform: rotateY(180deg); }
-.leaf .page { left: 0; top: 0; }
-.leaf__shade, .flip-shadow {
-  position: absolute; inset: 0;
-  pointer-events: none;
-  opacity: 0;
-}
-.leaf__shade { z-index: 2; border-radius: inherit; will-change: opacity; }
-.leaf--fwd  .leaf__face--front .leaf__shade,
-.leaf--back .leaf__face--back  .leaf__shade { background: linear-gradient(90deg, rgba(40,25,15,.35), rgba(40,25,15,.08) 60%, rgba(40,25,15,.18)); }
-.leaf--fwd  .leaf__face--back  .leaf__shade,
-.leaf--back .leaf__face--front .leaf__shade { background: linear-gradient(270deg, rgba(40,25,15,.35), rgba(40,25,15,.08) 60%, rgba(40,25,15,.18)); }
-.flip-shadow { top: 11px; width: 590px; height: 820px; z-index: 4; }
-.flip-shadow--right { left: 611px; background: linear-gradient(90deg, rgba(30,18,10,.45), rgba(30,18,10,.12) 45%, rgba(30,18,10,0)); }
-.flip-shadow--left  { left: 21px;  background: linear-gradient(270deg, rgba(30,18,10,.45), rgba(30,18,10,.12) 45%, rgba(30,18,10,0)); }
+.curl--fwd  { left: 611px; }
+.curl--back { left: 21px; }
+.curl__clip { position: absolute; left: 0; top: 0; width: 590px; height: 820px; }
+.curl__flap { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.curl__flap .page { left: 0; top: 0; }
+.curl__strip { position: absolute; left: 0; top: 0; width: 3000px; transform-origin: 0 0; }
 .crease--front { z-index: 6; }
 
 @media (prefers-reduced-motion: reduce) {
